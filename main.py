@@ -42,7 +42,7 @@ def main():
     result = asyncio.run(processor.process_log(
         log_file=log_file,
         regex_pattern=regex_pattern,
-        **{k: v for k, v in vars(args).items() if k not in ['log_file', 'regex_pattern', 'ripedb']}
+        **{k: v for k, v in vars(args).items() if k not in ['log_file', 'regex_pattern']}
     ))
 
     # Handle JSON output
@@ -56,7 +56,7 @@ def main():
     
     if args.ripedb:
         # Lets write the contents of the subnets to file
-        mapper.write_subnets_to_file(args.ripedb)
+        mapper.write_subnets_to_file()
 
 if __name__ == "__main__":
     main()
