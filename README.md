@@ -61,10 +61,14 @@ $ pip install -r requirements.txt
 
 ## :pencil2: Usage :pencil2:
 There are some nifty features within this program.
-* :star: Regular Expression searching (find lines matching a particular regex)
-* :star: Column separator - useful identifying the write "column" within your log file that contains the public IP address.
-* :star: RIPE database - useful for minimizing the number of queries to the RIPE API.
-* :star: json output - outputs all data from the query to be used in automation tasks.
+
+:star: Regular Expression searching (find lines matching a particular regex)
+
+:star: Column separator - useful identifying the write "column" within your log file that contains the public IP address.
+
+:star: RIPE database - useful for minimizing the number of queries to the RIPE API.
+
+:star: json output - outputs all data from the query to be used in automation tasks.
 
 ### Example 1
 We have a log entry from the file `/syslog/server-log.2024-11-26` that looks like an SSH attempt to a linux host. It looks like this:
