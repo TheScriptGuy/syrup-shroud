@@ -151,10 +151,45 @@ Which would result in this output and 2 files being created with the appropriate
 2024-12-01 10:23:51,785 - INFO - Written 763 prefixes to cloudflarenet-v6.txt
 ```
 
+## Generate a Word Cloud
+### Installation
+To install:
+```bash
+$ pip install -r requirements-wordcloud.txt
+```
+
+### Usage
+From the previous example above:
+```bash
+(.venv) $ python3 main.py  --separator " " --column 6 --ripedb ripe.json --json output.json /syslog/server-log.2024-11-26 'Connection from.*port 22'
+```
+
+You can use the `output.json` file to generate the word cloud image and table.
+
+### Example output
+#### Top 20 BGP ASN - Total Log Entries
+```bash
+(.venv) $ python3 generate_wordcloud.py -i output.json -o wordcloud-total_log_entries.png
+```
+
+Example image output:
+![](images/wordcloud-total_log_entries.png?raw=true)
+
+#### Image 2 - Top 20 BGP ASN - Unique IP Addresess
+To create a wordcloud of the unique number of IP addresses:
+
+```bash 
+(.venv) $ python3 generate_wordcloud.py -i output.json -o wordcloud-total_log_entries.png --metric ip_count
+```
+
+Example image output:
+![](images/wordcloud-ipcount.png?raw=true)
+
 ## Collaboration
 I am always open to collaborate on projects like this. Feel free to submit a pull request to do so.
 
 ## Licensing
 Free for personal use.
+Commercial options available.
 
 This project follows on from the [molasses-masses](https://github.com/TheScriptGuy/molasses-masses) project.

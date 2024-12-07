@@ -36,7 +36,7 @@ class LogProcessor:
         column = kwargs.get('column', 7)
 
         lines_to_process = self.parser.read_last_lines(log_file, tail) if tail > 0 else open(log_file).readlines()
-
+        line_counter = 0
         for line in lines_to_process:
             if re.search(regex_pattern, line):
                 fields = self.parser.parse_line(line.strip(), separator)
@@ -70,3 +70,9 @@ class LogProcessor:
                         description = asn_info[1]
 
                     self.aggregator.add_entry(asn, description, ip_address)
+            
+            line_counter += 1
+            if line_counter % 10000 == 0:
+                print(f"Lines processed - {line_counter}")
+            if line_counter % 10000 == 0:
+                print(f"IPv4 - {len(self.mapper.subnet_asn_map['ipv4'])}, IPv6 - {len(self.mapper.subnet_asn_map['ipv6'])}")
