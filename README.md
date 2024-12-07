@@ -152,13 +152,13 @@ Which would result in this output and 2 files being created with the appropriate
 ```
 
 ## Generate a Word Cloud
-### Installation
+### :wrench: Installation :wrench:
 To install:
 ```bash
 $ pip install -r requirements-wordcloud.txt
 ```
 
-### Usage
+### :pencil2: Usage :pencil2:
 From the previous example above:
 ```bash
 (.venv) $ python3 main.py  --separator " " --column 6 --ripedb ripe.json --json output.json /syslog/server-log.2024-11-26 'Connection from.*port 22'
@@ -167,6 +167,8 @@ From the previous example above:
 You can use the `output.json` file to generate the word cloud image and table.
 
 ### Example output
+I ran this script on a source data file that logged attempts to access my lab environment. The images below are results from the log files that were parsed.
+
 #### Top 20 BGP ASN - Total Log Entries
 ```bash
 (.venv) $ python3 generate_wordcloud.py -i output.json -o wordcloud-total_log_entries.png
