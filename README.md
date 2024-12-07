@@ -173,7 +173,7 @@ You can use the `output.json` file to generate the word cloud image and table.
 ```
 
 Example image output:
-![wordcloud-total-log-entries](images/wordcloud-total_log_entries.png?raw=true)
+![wordcloud-total-log-entries](images/wordcloud_log_entries.png?raw=true)
 
 #### Image 2 - Top 20 BGP ASN - Unique IP Addresess
 To create a wordcloud of the unique number of IP addresses:
@@ -183,7 +183,7 @@ To create a wordcloud of the unique number of IP addresses:
 ```
 
 Example image output:
-![wordcloud-ipcount](images/wordcloud-ipcount.png?raw=true)
+![wordcloud-ipcount](images/wordcloud_ipcount.png?raw=true)
 
 ## Collaboration
 I am always open to collaborate on projects like this. Feel free to submit a pull request to do so.
