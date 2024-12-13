@@ -59,10 +59,12 @@ class LogProcessor:
                         if 'error' not in whois_result:
                             # Extract the ASN and Description from whois result
                             asn, description = whois_result['asn'], whois_result['asn_description']
+                            
                             # Get all the subnets for the ASN
-                            subnets = await self.mapper.fetch_subnets(int(asn))
-                            # Add subnets to be tracked and in future reduce number of API queries.
-                            self.mapper.add_subnets(subnets, asn, description)
+                            if isinstance(asn, int):
+                                subnets = await self.mapper.fetch_subnets(int(asn))
+                                # Add subnets to be tracked and in future reduce number of API queries.
+                                self.mapper.add_subnets(subnets, asn, description)
                         else:
                             continue
                     else:
