@@ -1,5 +1,6 @@
 import asyncio
 import re
+
 from .log_parser import LogParser
 from .ip_address_validator import IPAddressValidator
 from .asn_lookup import ASNLookup
@@ -36,6 +37,7 @@ class LogProcessor:
         column = kwargs.get('column', 7)
 
         lines_to_process = self.parser.read_last_lines(log_file, tail) if tail > 0 else open(log_file).readlines()
+
         line_counter = 0
         for line in lines_to_process:
             if re.search(regex_pattern, line):
