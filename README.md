@@ -81,7 +81,7 @@ Our public IP address that we want to lookup is in the 7th column but we use a z
 
 We can run our python script like so:
 ```bash
-(.venv) $ python3 main.py  --separator " " --column 6 /syslog/server-log.2024-11-26 'Connection from.*port 22'
+(.venv) $ python3 ip_parser.py  --separator " " --column 6 /syslog/server-log.2024-11-26 'Connection from.*port 22'
 ```
 Which will give us this output:
 ```
@@ -96,7 +96,7 @@ If we're running this script many times, we'll be calling the RIPE API very freq
 
 Using the same example as above, you could run it like this:
 ```bash
-(.venv) $ python3 main.py  --separator " " --column 6 --ripedb ripe.json /syslog/server-log.2024-11-26 'Connection from.*port 22'
+(.venv) $ python3 ip_parser.py  --separator " " --column 6 --ripedb ripe.json /syslog/server-log.2024-11-26 'Connection from.*port 22'
 ```
 
 The script will check to see if the file exists, if so, it'll load it. If there are newer subnets that are discovered (that are not in the local RIPE database file), the updates will be added and written back to the json file when the script finishes.
@@ -105,7 +105,7 @@ If you need to "refresh" the database, just remove the file and the script will 
 ### Example 3
 Assuming you want to have further automation within your pipeline, you can use the `--json` argument to write the analysis out into a json file.
 ```bash
-(.venv) $ python3 main.py  --separator " " --column 6 --ripedb ripe.json --json output.json /syslog/server-log.2024-11-26 'Connection from.*port 22'
+(.venv) $ python3 ip_parser.py  --separator " " --column 6 --ripedb ripe.json --json output.json /syslog/server-log.2024-11-26 'Connection from.*port 22'
 ```
 
 From the first example, the resulting output would be:
@@ -161,7 +161,7 @@ $ pip install -r requirements-wordcloud.txt
 ### :pencil2: Usage :pencil2:
 From the previous example above:
 ```bash
-(.venv) $ python3 main.py  --separator " " --column 6 --ripedb ripe.json --json output.json /syslog/server-log.2024-11-26 'Connection from.*port 22'
+(.venv) $ python3 ip_parser.py  --separator " " --column 6 --ripedb ripe.json --json output.json /syslog/server-log.2024-11-26 'Connection from.*port 22'
 ```
 
 You can use the `output.json` file to generate the word cloud image and table.

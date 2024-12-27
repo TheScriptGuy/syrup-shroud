@@ -26,4 +26,3 @@ class ASNLookup:
             }
         except Exception as e:
             return {"error": str(e)}
-
