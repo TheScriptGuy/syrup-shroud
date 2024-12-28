@@ -139,7 +139,7 @@ class IPLookup:
                     self.logger.debug(f"Found {ip_address} in cache: ASN {asn}, Desc {description}")
                     return {'asn': asn, 'asn_description': description}  # Changed key to asn_description
             
-            self.logger.debug(f"Did not find IP in cache")
+            self.logger.debug(f"Did not find IP {ip_address} in cache")
 
             # If not in cache, perform WHOIS lookup
             self.logger.debug(f"Performing whois lookup for IP {ip_address}")
@@ -156,7 +156,7 @@ class IPLookup:
                         'ipv4': subnets['ipv4'],
                         'ipv6': subnets['ipv6']
                     }
-                    self.logger.debug(f"Updating subnet cache with {len(self.asn_data[asn]['ipv4'])} IPv4 subnets and {len(self.asn_data[asn]['ipv6'])}")
+                    self.logger.debug(f"Updating subnet cache with {len(self.asn_data[asn]['ipv4'])} IPv4 subnets and {len(self.asn_data[asn]['ipv6'])} subnets")
                     self._update_subnet_cache(asn)
                 return whois_result
         except Exception as e:
