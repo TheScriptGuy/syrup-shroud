@@ -17,6 +17,8 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument('regex', help='Regular expression to match lines')
     parser.add_argument('--separator', default=',', help='Field separator (default: comma)')
     parser.add_argument('--column', type=int, required=True, help='Column number to check for IP (0-based)')
+    parser.add_argument('--lstrip', help='Text to strip from left of column value')
+    parser.add_argument('--rstrip', help='Text to strip from right of column value')
     parser.add_argument('--debug', action='store_true', help='Enable debug logging')
     parser.add_argument('--stats', action='store_true', help='Show processing statistics')
     parser.add_argument('--output', help='Output JSON file for results')
@@ -50,6 +52,10 @@ def main():
                 fields = line.strip().split(args.separator)
                 if len(fields) > args.column:
                     potential_ip = fields[args.column].strip()
+                    if args.lstrip and potential_ip.startswith(args.lstrip):
+                        potential_ip = potential_ip[len(args.lstrip):]
+                    if args.rstrip and potential_ip.endswith(args.rstrip):
+                        potential_ip = potential_ip[:-len(args.rstrip)]
                     if ip_validator.validate_ip(potential_ip)[0]:
                         ip_counts[potential_ip] = ip_counts.get(potential_ip, 0) + 1
        
