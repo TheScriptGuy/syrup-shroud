@@ -11,7 +11,16 @@ class IPLookup:
     """Handles IP address lookups, ASN information, and RIPE database interactions."""
     
     RIPE_API_URL = "https://stat.ripe.net/data/announced-prefixes/data.json"
-    
+
+    # Excluded subnets as strings (faster comparison to API results)
+    EXCLUDED_IPV4_PREFIXES = {
+        "0.0.0.0/0"
+    }
+
+    EXCLUDED_IPV6_PREFIXES = {
+        "::/0"
+    }
+
     def __init__(self, logger: CustomLogger, ripe_db_file: Optional[str] = None):
         self.logger = logger
         self.ripe_db_file = Path(ripe_db_file) if ripe_db_file else None
@@ -85,24 +94,52 @@ class IPLookup:
             self.logger.debug(f"ASN{asn} - Error fetching subnets - {e}")
         return {"ipv4": set(), "ipv6": set()}
 
+
     def _summarize_subnets(self, subnets: Set[str]) -> Set[str]:
-        """Summarize contiguous subnets into larger CIDR blocks."""
+        """
+        Summarize contiguous subnets into larger CIDR blocks,
+        excluding overly broad subnets like 0.0.0.0/0 and ::/0.
+        """
         if not subnets:
             return set()
-        networks = [ipaddress.ip_network(s) for s in subnets]
+
+        networks = []
+        for subnet in subnets:
+            if subnet in self.EXCLUDED_IPV4_PREFIXES or subnet in self.EXCLUDED_IPV6_PREFIXES:
+                self.logger.debug(f"Excluding subnet {subnet} from summarization")
+                continue
+
+            try:
+                network = ipaddress.ip_network(subnet)
+                networks.append(network)
+            except ValueError:
+                self.logger.debug(f"Skipping invalid subnet during summarization: {subnet}")
+                continue
+
         return {str(net) for net in ipaddress.collapse_addresses(networks)}
 
+
     def _categorize_subnets(self, subnets: list) -> Dict:
-        """Categorize subnets into IPv4 and IPv6."""
+        """
+        Categorize subnets into IPv4 and IPv6, excluding invalid or overly broad entries.
+        """
         result = {"ipv4": set(), "ipv6": set()}
         for subnet in subnets:
+            subnet = subnet.strip()
+        
+            if subnet in self.EXCLUDED_IPV4_PREFIXES or subnet in self.EXCLUDED_IPV6_PREFIXES:
+                self.logger.debug(f"Excluding subnet {subnet} during categorization")
+                continue
+
             try:
                 network = ipaddress.ip_network(subnet)
                 key = 'ipv6' if isinstance(network, ipaddress.IPv6Network) else 'ipv4'
                 result[key].add(subnet)
             except ValueError:
+                self.logger.debug(f"Skipping invalid subnet format: {subnet}")
                 continue
         return result
+
 
     def lookup_ip(self, ip_address: str) -> Optional[Dict]:
         try:

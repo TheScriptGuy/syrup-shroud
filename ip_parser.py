@@ -49,7 +49,10 @@ def main():
                 stats_tracker.update_line_count(line_count, logger)
                 
             if pattern.search(line.strip()):
-                fields = line.strip().split(args.separator)
+                if args.separator == ' ':
+                    fields = re.split(r'\s+', line.strip())  # Splitting on one or more spaces
+                else:
+                    fields = line.strip().split(args.separator)
                 if len(fields) > args.column:
                     potential_ip = fields[args.column].strip()
                     if args.lstrip and potential_ip.startswith(args.lstrip):
